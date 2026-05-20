@@ -9,8 +9,7 @@ st.set_page_config(
 )
 
 ACCOUNT_URL = "https://cnnqtpa-am36229.snowflakecomputing.com"
-AGENT_PATH = "ENGRAM.AGENTS.INDEX"
-API_ENDPOINT = f"{ACCOUNT_URL}/api/v2/cortex/agent:run"
+API_ENDPOINT = f"{ACCOUNT_URL}/api/v2/databases/ENGRAM/schemas/AGENTS/agents/INDEX:run"
 
 STARTER_QUESTIONS = [
     "Tell me about Amy Korosi",
@@ -29,15 +28,14 @@ def call_index_agent(messages):
         "X-Snowflake-Authorization-Token-Type": "PROGRAMMATIC_ACCESS_TOKEN"
     }
     body = {
-        "agent": AGENT_PATH,
         "messages": messages,
         "stream": False
     }
     response = requests.post(API_ENDPOINT, json=body, headers=headers)
-    
+
     if response.status_code != 200:
         return f"Error {response.status_code}: {response.text}"
-    
+
     try:
         data = response.json()
         content_blocks = data.get("content", [])
