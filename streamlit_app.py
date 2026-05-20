@@ -35,11 +35,19 @@ def call_index_agent(messages):
         "stream": True
     }
     response = requests.post(API_ENDPOINT, json=body, headers=headers, stream=True)
+    
+    if response.status_code != 200:
+        yield f"Error {response.status_code}: {response.text}"
+        return
+
     current_event = None
+    full_raw = []
+    
     for line in response.iter_lines():
         if not line:
             continue
         line = line.decode("utf-8")
+        full_raw.append(line)
         if line.startswith("event:"):
             current_event = line[6:].strip()
         elif line.startswith("data:"):
@@ -54,6 +62,10 @@ def call_index_agent(messages):
                         yield delta
                 except json.JSONDecodeError:
                     pass
+
+    if not any("response.text.delta" in r for r in full_raw):
+        events_seen = [r for r in full_raw if r.startswith("event:")]
+        yield f"No text response received. Events seen: {events_seen[:10]}"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
