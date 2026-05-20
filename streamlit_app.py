@@ -50,10 +50,17 @@ def call_index_agent(messages):
         full_raw.append(line)
         if line.startswith("event:"):
             current_event = line[6:].strip()
-        elif line.startswith("data:"):
+       elif line.startswith("data:"):
             data_str = line[5:].strip()
             if data_str == "[DONE]":
                 break
+            if current_event == "error":
+                try:
+                    data = json.loads(data_str)
+                    yield f"Agent error: {json.dumps(data)}"
+                except:
+                    yield f"Agent error: {data_str}"
+                return
             if current_event == "response.text.delta":
                 try:
                     data = json.loads(data_str)
