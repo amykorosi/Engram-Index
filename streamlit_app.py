@@ -71,8 +71,7 @@ def call_index_agent(messages):
                     pass
 
     if not any("response.text.delta" in r for r in full_raw):
-        events_seen = [r for r in full_raw if r.startswith("event:")]
-        yield f"No text response received. Events seen: {events_seen[:10]}"
+        yield f"Raw stream: {full_raw[:20]}"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
