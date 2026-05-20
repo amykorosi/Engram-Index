@@ -35,14 +35,14 @@ def call_index_agent(messages):
         "stream": True
     }
     response = requests.post(API_ENDPOINT, json=body, headers=headers, stream=True)
-    
+
     if response.status_code != 200:
         yield f"Error {response.status_code}: {response.text}"
         return
 
     current_event = None
     full_raw = []
-    
+
     for line in response.iter_lines():
         if not line:
             continue
@@ -50,7 +50,7 @@ def call_index_agent(messages):
         full_raw.append(line)
         if line.startswith("event:"):
             current_event = line[6:].strip()
-       elif line.startswith("data:"):
+        elif line.startswith("data:"):
             data_str = line[5:].strip()
             if data_str == "[DONE]":
                 break
@@ -58,7 +58,7 @@ def call_index_agent(messages):
                 try:
                     data = json.loads(data_str)
                     yield f"Agent error: {json.dumps(data)}"
-                except:
+                except Exception:
                     yield f"Agent error: {data_str}"
                 return
             if current_event == "response.text.delta":
