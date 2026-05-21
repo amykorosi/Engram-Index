@@ -30,8 +30,6 @@ ROLE_PROMPT = (
 
 ROLE_DISPLAY = "Tell me about Amy's time as {title} at {company} ({dates})"
 
-AVATARS = {"user": "✦", "assistant": "✦"}
-
 def call_index_agent(messages):
     pat = st.secrets["snowflake"]["pat"]
     headers = {
@@ -58,12 +56,10 @@ def call_index_agent(messages):
 st.markdown("""
 <style>
 
-/* White sidebar background so teal reads clearly */
 [data-testid="stSidebar"] {
     background-color: #FFFFFF;
 }
 
-/* Sidebar buttons */
 [data-testid="stSidebar"] .stButton > button {
     background: transparent;
     border: none;
@@ -96,13 +92,10 @@ st.markdown("""
     outline: none;
 }
 
-/* Career Engram label */
-[data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] strong {
     color: #00637C;
 }
 
-/* Remove default chat avatar icons and replace cleanly */
 [data-testid="stChatMessageAvatarUser"] {
     background-color: #E8EEF0 !important;
     color: #00637C !important;
@@ -134,8 +127,7 @@ st.markdown("Index searches Amy's professional Engram: a structured knowledge ba
 st.divider()
 
 for message in st.session_state.messages:
-    avatar = "✦" if message["role"] == "assistant" else "→"
-    with st.chat_message(message["role"], avatar=avatar):
+    with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 if "pending_prompt" in st.session_state:
@@ -143,7 +135,7 @@ if "pending_prompt" in st.session_state:
     display_text = st.session_state.pop("pending_display", actual_prompt)
 
     st.session_state.messages.append({"role": "user", "content": display_text})
-    with st.chat_message("user", avatar="→"):
+    with st.chat_message("user"):
         st.markdown(display_text)
 
     api_messages = [
@@ -151,7 +143,7 @@ if "pending_prompt" in st.session_state:
         for m in st.session_state.messages[:-1]
     ] + [{"role": "user", "content": [{"type": "text", "text": actual_prompt}]}]
 
-    with st.chat_message("assistant", avatar="✦"):
+    with st.chat_message("assistant"):
         with st.spinner("Index is searching..."):
             response_text = call_index_agent(api_messages)
         st.markdown(response_text)
@@ -161,14 +153,14 @@ if "pending_prompt" in st.session_state:
 
 if prompt := st.chat_input("Ask anything about Amy..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user", avatar="→"):
+    with st.chat_message("user"):
         st.markdown(prompt)
 
     api_messages = [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages
     ]
-    with st.chat_message("assistant", avatar="✦"):
+    with st.chat_message("assistant"):
         with st.spinner("Index is searching..."):
             response_text = call_index_agent(api_messages)
         st.markdown(response_text)
