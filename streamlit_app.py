@@ -30,6 +30,8 @@ ROLE_PROMPT = (
 
 ROLE_DISPLAY = "Tell me about Amy's time as {title} at {company} ({dates})"
 
+AVATARS = {"user": "✦", "assistant": "✦"}
+
 def call_index_agent(messages):
     pat = st.secrets["snowflake"]["pat"]
     headers = {
@@ -53,44 +55,70 @@ def call_index_agent(messages):
     except Exception as e:
         return f"Parse error: {str(e)} -- Raw: {response.text[:500]}"
 
-# ── CSS: sidebar button styling ──
 st.markdown("""
 <style>
+
+/* White sidebar background so teal reads clearly */
+[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+}
+
+/* Sidebar buttons */
 [data-testid="stSidebar"] .stButton > button {
     background: transparent;
     border: none;
     border-left: 3px solid #00637C;
     border-radius: 0 6px 6px 0;
     text-align: left;
-    padding: 8px 10px 8px 14px;
+    padding: 10px 10px 10px 14px;
     color: #31333F;
     width: 100%;
-    font-size: 12px;
-    line-height: 1.35;
-    margin-bottom: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 4px;
     white-space: normal;
+    transition: all 0.15s ease;
 }
+
 [data-testid="stSidebar"] .stButton > button:hover {
-    background: rgba(0, 99, 124, 0.08);
-    border-left-color: #00637C;
+    background: rgba(0, 99, 124, 0.07);
     color: #00637C;
+    border-left-color: #00637C;
 }
-[data-testid="stSidebar"] .stButton > button:active,
-[data-testid="stSidebar"] .stButton > button:focus {
-    background: rgba(0, 99, 124, 0.14);
-    border-left-color: #00637C;
+
+[data-testid="stSidebar"] .stButton > button:focus,
+[data-testid="stSidebar"] .stButton > button:active {
+    background: rgba(0, 99, 124, 0.12);
     color: #00637C;
-    outline: none;
+    border-left-color: #00637C;
     box-shadow: none;
+    outline: none;
 }
+
+/* Career Engram label */
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] strong {
+    color: #00637C;
+}
+
+/* Remove default chat avatar icons and replace cleanly */
+[data-testid="stChatMessageAvatarUser"] {
+    background-color: #E8EEF0 !important;
+    color: #00637C !important;
+}
+
+[data-testid="stChatMessageAvatarAssistant"] {
+    background-color: #00637C !important;
+    color: #FFFFFF !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# ── Session state ──
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# ── Sidebar ──
 with st.sidebar:
     st.markdown("**Career Engram**")
     st.divider()
@@ -101,32 +129,29 @@ with st.sidebar:
             st.session_state.pending_display = ROLE_DISPLAY.format(**role)
             st.rerun()
 
-# ── Header ──
 st.title("Ask Index About Amy Korosi")
 st.markdown("Index searches Amy's professional Engram: a structured knowledge base of career evidence, leadership philosophy, and references.")
 st.divider()
 
-# ── Chat history ──
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
+    avatar = "✦" if message["role"] == "assistant" else "→"
+    with st.chat_message(message["role"], avatar=avatar):
         st.markdown(message["content"])
 
-# ── Pending question handler ──
 if "pending_prompt" in st.session_state:
     actual_prompt = st.session_state.pop("pending_prompt")
     display_text = st.session_state.pop("pending_display", actual_prompt)
 
     st.session_state.messages.append({"role": "user", "content": display_text})
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar="→"):
         st.markdown(display_text)
 
-    # Send actual structured prompt to Index, not the display text
     api_messages = [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages[:-1]
     ] + [{"role": "user", "content": [{"type": "text", "text": actual_prompt}]}]
 
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar="✦"):
         with st.spinner("Index is searching..."):
             response_text = call_index_agent(api_messages)
         st.markdown(response_text)
@@ -134,22 +159,18 @@ if "pending_prompt" in st.session_state:
     st.session_state.messages.append({"role": "assistant", "content": response_text})
     st.rerun()
 
-# ── Chat input ──
 if prompt := st.chat_input("Ask anything about Amy..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
+    with st.chat_message("user", avatar="→"):
         st.markdown(prompt)
 
     api_messages = [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages
     ]
-    with st.chat_message("assistant"):
+    with st.chat_message("assistant", avatar="✦"):
         with st.spinner("Index is searching..."):
             response_text = call_index_agent(api_messages)
         st.markdown(response_text)
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})
-
-st.divider()
-st.caption("This is a week-old idea and prototype, still a work in progress. Feedback is very much appreciated.")
