@@ -53,26 +53,6 @@ ROLE_PROMPT = (
 ROLE_DISPLAY = "Tell me about Amy's time as {title} at {company} ({dates})"
 
 
-STARTER_QUESTIONS = [
-    {
-        "label": "Tell me about Amy",
-        "prompt": "Tell me about Amy. Start with a concise professional overview, then give me the most important things to know."
-    },
-    {
-        "label": "Why Snowflake?",
-        "prompt": "Why does Amy want to work at Snowflake, and what would Amy bring to Snowflake?"
-    },
-    {
-        "label": "How was Index built?",
-        "prompt": "How was Engram and Index built? Explain the process, architecture, and what the prototype demonstrates."
-    },
-    {
-        "label": "What has Amy built on Snowflake?",
-        "prompt": "What has Amy built on Snowflake? Include specific examples and what they show about Amy's approach."
-    },
-]
-
-
 # ============================================================
 # Helpers
 # ============================================================
@@ -123,7 +103,10 @@ def call_index_agent(messages):
         return "Index returned a response, but no text content was found."
 
     except Exception as e:
-        return f"Index returned a response, but it could not be parsed. Error: {str(e)}. Raw: {response.text[:500]}"
+        return (
+            f"Index returned a response, but it could not be parsed. "
+            f"Error: {str(e)}. Raw: {response.text[:500]}"
+        )
 
 
 def log_to_snowflake(session_id, role, content):
@@ -162,18 +145,11 @@ def log_to_snowflake(session_id, role, content):
         pass
 
 
-def build_api_messages(latest_prompt=None):
-    api_messages = [
+def build_api_messages():
+    return [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages
     ]
-
-    if latest_prompt:
-        api_messages.append(
-            {"role": "user", "content": [{"type": "text", "text": latest_prompt}]}
-        )
-
-    return api_messages
 
 
 def build_conversation_markdown():
@@ -196,11 +172,11 @@ def build_conversation_markdown():
 
     for msg in st.session_state.messages:
         if msg["role"] == "user":
-            lines.append(f"## Question")
+            lines.append("## Question")
             lines.append(msg["content"])
             lines.append("")
         else:
-            lines.append(f"## Index")
+            lines.append("## Index")
             lines.append(msg["content"])
             lines.append("")
 
@@ -243,18 +219,16 @@ st.markdown(
     --soft-bg: #F7F9FA;
 }
 
-/* Page shell */
 .stApp {
     background: #FFFFFF;
 }
 
 .block-container {
     padding-top: 3.25rem !important;
-    padding-bottom: 2rem !important;
+    padding-bottom: 1.75rem !important;
     max-width: 1220px;
 }
 
-/* Hide the default Streamlit top gap feeling */
 header[data-testid="stHeader"] {
     background: rgba(255, 255, 255, 0);
 }
@@ -302,7 +276,6 @@ header[data-testid="stHeader"] {
     font-weight: 400;
 }
 
-/* Sidebar role buttons */
 [data-testid="stSidebar"] .stButton > button {
     background: transparent;
     border: none;
@@ -337,7 +310,7 @@ header[data-testid="stHeader"] {
 
 /* Header */
 .index-header {
-    padding: 10px 0 20px 0;
+    padding: 8px 0 32px 0;
 }
 
 .index-logo-row {
@@ -354,7 +327,7 @@ header[data-testid="stHeader"] {
 }
 
 .index-title {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 750;
     color: var(--text);
     letter-spacing: -0.6px;
@@ -366,35 +339,31 @@ header[data-testid="stHeader"] {
     letter-spacing: 0.22em;
     color: var(--warm-muted);
     text-transform: uppercase;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     padding-left: 2px;
 }
 
 .index-intro {
-    font-size: 14.5px;
+    font-size: 15px;
     color: #4B5563;
     line-height: 1.65;
-    max-width: 820px;
+    max-width: 860px;
     margin: 0;
 }
 
-/* Starter prompts */
-.starter-wrap {
-    margin: 12px 0 18px 0;
-    padding: 13px 14px;
-    background: #FFFFFF;
-    border: 1px solid var(--border-soft);
-    border-radius: 14px;
-}
-
-.starter-label {
-    font-size: 12px;
-    font-weight: 750;
+/* Chat header */
+.chat-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     color: var(--primary-dark);
-    margin-bottom: 8px;
+    font-size: 13.5px;
+    font-weight: 750;
+    margin-bottom: 10px;
+    margin-top: 0;
 }
 
-/* Main button style for starter question buttons */
+/* Generic buttons */
 div[data-testid="stButton"] > button {
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -411,33 +380,10 @@ div[data-testid="stButton"] > button:hover {
     background: rgba(47, 97, 115, 0.05);
 }
 
-/* Chat card */
-.chat-card {
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: #FFFFFF;
-    padding: 14px 16px 10px 16px;
-    margin-top: 8px;
-}
-
-.chat-card-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: var(--primary-dark);
-    font-size: 13px;
-    font-weight: 750;
-    margin-bottom: 10px;
-}
-
-.grounded-pill {
-    font-size: 11px;
-    color: var(--muted-teal);
-    background: var(--soft-teal);
-    border: 1px solid #D7E4E8;
-    padding: 4px 9px;
-    border-radius: 999px;
-    font-weight: 650;
+/* Bordered container */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-color: var(--border) !important;
+    border-radius: 16px !important;
 }
 
 /* Empty chat state */
@@ -464,12 +410,6 @@ div[data-testid="stButton"] > button:hover {
     max-width: 520px;
     line-height: 1.65;
     color: var(--muted);
-}
-
-/* Streamlit bordered container cleanup */
-div[data-testid="stVerticalBlockBorderWrapper"] {
-    border-color: var(--border) !important;
-    border-radius: 16px !important;
 }
 
 /* Chat avatars */
@@ -513,44 +453,36 @@ textarea:focus {
     box-shadow: none !important;
 }
 
-/* Footer button area */
-.footer-actions {
-    margin-top: 16px;
+/* Quiet footer actions */
+.footer-utility-row {
+    margin-top: 12px;
+    margin-bottom: 2px;
 }
 
-.footer-btn {
+.quiet-action-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    width: 100%;
-    height: 42px;
-    padding: 0 15px;
-    border: 1.25px solid var(--muted-teal);
-    border-radius: 10px;
-    background: white;
-    color: var(--primary-dark);
-    font-size: 13.5px;
-    font-weight: 700;
+    gap: 7px;
+    height: 34px;
+    color: var(--muted-teal);
+    font-size: 13px;
+    font-weight: 650;
     text-decoration: none !important;
-    transition: all 0.15s ease;
-    box-sizing: border-box;
-    cursor: pointer;
+    border-bottom: 1px solid transparent;
 }
 
-.footer-btn:hover {
-    background: rgba(47, 97, 115, 0.05);
-    text-decoration: none !important;
+.quiet-action-link:hover {
     color: var(--primary-dark);
+    text-decoration: none !important;
 }
 
 .linkedin-mark {
     color: #0A66C2;
     font-weight: 900;
-    font-size: 15px;
+    font-size: 14px;
     font-family: sans-serif;
     line-height: 1;
-    flex-shrink: 0;
 }
 
 [data-testid="stDownloadButton"] {
@@ -558,43 +490,40 @@ textarea:focus {
 }
 
 [data-testid="stDownloadButton"] > button {
-    width: 100% !important;
-    height: 42px !important;
-    padding: 0 15px !important;
-    border: 1.25px solid var(--muted-teal) !important;
-    border-radius: 10px !important;
-    background: white !important;
-    color: var(--primary-dark) !important;
-    font-size: 13.5px !important;
-    font-weight: 700 !important;
-    transition: all 0.15s ease !important;
-    line-height: 1 !important;
+    height: 34px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--muted-teal) !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stDownloadButton"] > button:hover:not(:disabled) {
-    background: rgba(47, 97, 115, 0.05) !important;
-    border-color: var(--muted-teal) !important;
+    background: transparent !important;
     color: var(--primary-dark) !important;
+    border: none !important;
 }
 
 [data-testid="stDownloadButton"] > button:disabled {
+    background: transparent !important;
+    border: none !important;
     color: #C4CDD1 !important;
-    border-color: #E5EAEB !important;
-    background: #F7F9FA !important;
-    cursor: not-allowed !important;
+    box-shadow: none !important;
 }
 
 .disclaimer {
     text-align: center;
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--warm-muted);
     font-style: italic;
-    margin-top: 13px;
+    margin-top: 6px;
     padding: 0 8px;
-    line-height: 1.55;
+    line-height: 1.45;
 }
 
-/* Make mobile less awkward */
+/* Mobile */
 @media (max-width: 768px) {
     .block-container {
         padding-top: 2rem !important;
@@ -673,7 +602,6 @@ with st.sidebar:
 left_spacer, main_col, right_spacer = st.columns([0.08, 0.84, 0.08])
 
 with main_col:
-    # Header
     st.markdown(
         """
         <div class="index-header">
@@ -691,31 +619,10 @@ with main_col:
         unsafe_allow_html=True,
     )
 
-    # Starter prompts only before a conversation starts
-    if not st.session_state.messages:
-        st.markdown(
-            """
-            <div class="starter-wrap">
-                <div class="starter-label">Try asking:</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        starter_cols = st.columns(4)
-        for i, item in enumerate(STARTER_QUESTIONS):
-            with starter_cols[i]:
-                if st.button(item["label"], key=f"starter_{i}", use_container_width=True):
-                    st.session_state.pending_prompt = item["prompt"]
-                    st.session_state.pending_display = item["label"]
-                    st.rerun()
-
-    # Chat frame
     st.markdown(
         """
         <div class="chat-card-title">
             <span>Chat with Index</span>
-            <span class="grounded-pill">Grounded retrieval</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -746,48 +653,43 @@ with main_col:
 
         prompt = st.chat_input("Ask anything about Amy...")
 
-    # Handle pending starter or role prompt
     if "pending_prompt" in st.session_state:
         actual_prompt = st.session_state.pop("pending_prompt")
         display_text = st.session_state.pop("pending_display", actual_prompt)
         ask_index(actual_prompt=actual_prompt, display_text=display_text)
 
-    # Handle direct chat prompt
     if prompt:
         ask_index(actual_prompt=prompt, display_text=prompt)
 
-    # Footer actions
     has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
 
-    st.markdown('<div class="footer-actions"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="footer-utility-row"></div>', unsafe_allow_html=True)
 
-    footer_col1, footer_col2, footer_col3 = st.columns([1, 1, 1.25])
+    footer_left, footer_center, footer_right = st.columns([1.2, 1.6, 1.2])
 
-    with footer_col1:
-        st.markdown(
-            f"""
-            <a href="{LINKEDIN_URL}"
-               target="_blank"
-               class="footer-btn">
-                <span class="linkedin-mark">in</span>
-                Connect on LinkedIn
-            </a>
-            """,
-            unsafe_allow_html=True,
-        )
+    with footer_center:
+        action_col1, action_col2 = st.columns(2)
 
-    with footer_col2:
-        st.download_button(
-            label="↓  Download Summary",
-            data=build_conversation_markdown(),
-            file_name="Amy_Korosi_Index_Conversation.md",
-            mime="text/markdown",
-            disabled=not has_conversation,
-            use_container_width=True,
-        )
+        with action_col1:
+            st.markdown(
+                f"""
+                <a href="{LINKEDIN_URL}" target="_blank" class="quiet-action-link">
+                    <span class="linkedin-mark">in</span>
+                    Connect on LinkedIn
+                </a>
+                """,
+                unsafe_allow_html=True,
+            )
 
-    with footer_col3:
-        st.empty()
+        with action_col2:
+            st.download_button(
+                label="Download summary",
+                data=build_conversation_markdown(),
+                file_name="Amy_Korosi_Index_Conversation.md",
+                mime="text/markdown",
+                disabled=not has_conversation,
+                use_container_width=True,
+            )
 
     st.markdown(
         """
