@@ -480,8 +480,8 @@ textarea:focus {
     font-weight: 600 !important;
     font-family: inherit !important;
     text-decoration: none !important;
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     cursor: pointer;
     transition: color 0.15s ease;
 }
@@ -491,7 +491,7 @@ textarea:focus {
     text-decoration: none !important;
 }
 
-/* ── Download button: match LinkedIn link exactly ── */
+/* ── Download button: match LinkedIn button exactly ── */
 [data-testid="stDownloadButton"] {
     width: 100%;
 }
@@ -645,66 +645,3 @@ with main_col:
             if not st.session_state.messages:
                 st.markdown(
                     """
-                    <div class="empty-state">
-                        <div class="empty-title">Ask Index about Amy</div>
-                        <div class="empty-copy">
-                            Ask about Amy's work, Snowflake experience, leadership style,
-                            references, or how Engram and Index were built.
-                        </div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-            for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
-
-        prompt = st.chat_input("Ask anything about Amy...")
-
-    if "pending_prompt" in st.session_state:
-        actual_prompt = st.session_state.pop("pending_prompt")
-        display_text = st.session_state.pop("pending_display", actual_prompt)
-        ask_index(actual_prompt=actual_prompt, display_text=display_text)
-
-    if prompt:
-        ask_index(actual_prompt=prompt, display_text=prompt)
-
-    has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
-
-    st.markdown('<div class="footer-utility-row"></div>', unsafe_allow_html=True)
-
-    footer_left, footer_center, footer_right = st.columns([1.2, 1.6, 1.2])
-
-    with footer_center:
-        action_col1, action_col2 = st.columns(2)
-
-        with action_col1:
-            st.markdown(
-                f"""
-                <a href="{LINKEDIN_URL}" target="_blank" class="footer-action-link">
-                    Connect on LinkedIn
-                </a>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        with action_col2:
-            st.download_button(
-                label="Download summary",
-                data=build_conversation_markdown(),
-                file_name="Amy_Korosi_Index_Conversation.md",
-                mime="text/markdown",
-                disabled=not has_conversation,
-                use_container_width=True,
-            )
-
-    st.markdown(
-        """
-        <p class="disclaimer">
-            Prototype disclosure: Index began May 16, 2026 and is a work in progress.
-            Feedback is welcome via LinkedIn.
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
