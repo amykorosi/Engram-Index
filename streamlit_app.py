@@ -668,8 +668,7 @@ with main_col:
                 )
 
             for message in st.session_state.messages:
-                avatar = "👤" if message["role"] == "user" else "✦"
-                with st.chat_message(message["role"], avatar=avatar):
+                with st.chat_message(message["role"]):
                     st.markdown(message["content"])
 
         prompt = st.chat_input("Ask anything about Amy...")
