@@ -233,7 +233,7 @@ header[data-testid="stHeader"] {
     background: rgba(255, 255, 255, 0);
 }
 
-/* ── Sidebar ── */
+/* Sidebar */
 [data-testid="stSidebar"] {
     background-color: #FFFFFF;
     border-right: 1px solid var(--border-soft);
@@ -308,7 +308,7 @@ header[data-testid="stHeader"] {
     outline: none;
 }
 
-/* ── Header ── */
+/* Header */
 .index-header {
     padding: 8px 0 32px 0;
 }
@@ -351,7 +351,7 @@ header[data-testid="stHeader"] {
     margin: 0;
 }
 
-/* ── Chat header ── */
+/* Chat header */
 .chat-card-title {
     display: flex;
     align-items: center;
@@ -363,7 +363,7 @@ header[data-testid="stHeader"] {
     margin-top: 0;
 }
 
-/* ── Generic sidebar buttons ── */
+/* Generic buttons */
 div[data-testid="stButton"] > button {
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -380,13 +380,13 @@ div[data-testid="stButton"] > button:hover {
     background: rgba(47, 97, 115, 0.05);
 }
 
-/* ── Bordered container ── */
+/* Bordered container */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     border-color: var(--border) !important;
     border-radius: 16px !important;
 }
 
-/* ── Empty chat state ── */
+/* Empty chat state */
 .empty-state {
     height: 300px;
     display: flex;
@@ -412,7 +412,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     color: var(--muted);
 }
 
-/* ── Chat avatars ── */
+/* Chat avatars */
 [data-testid="stChatMessageAvatarUser"] {
     background-color: #E8EEF0 !important;
     color: var(--muted-teal) !important;
@@ -423,31 +423,31 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     color: #FFFFFF !important;
 }
 
+/* Chat messages */
 [data-testid="stChatMessage"] {
     background: transparent;
     padding: 0.35rem 0;
 }
 
-/* ── Chat input: kill the red border ── */
+/* Chat input */
 [data-testid="stChatInputContainer"] {
-    border: 1px solid var(--border) !important;
-    background-color: #F4F6F8 !important;
+    border-color: var(--border) !important;
+    background: #F4F6F8 !important;
     box-shadow: none !important;
     border-radius: 14px !important;
     outline: none !important;
 }
 
-[data-testid="stChatInputContainer"] > div {
-    border: none !important;
-    background-color: transparent !important;
-    box-shadow: none !important;
+[data-testid="stChatInputContainer"]:focus-within {
+    border-color: var(--muted-teal) !important;
+    box-shadow: 0 0 0 1px var(--muted-teal) !important;
     outline: none !important;
 }
 
-[data-testid="stChatInputContainer"]:focus-within {
-    border: 1px solid var(--muted-teal) !important;
-    box-shadow: 0 0 0 1px var(--muted-teal) !important;
-    outline: none !important;
+[data-baseweb]:hover,
+[data-baseweb]:focus-within {
+    border-color: transparent !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stChatInputContainer"] *:focus,
@@ -458,64 +458,72 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     border-color: transparent !important;
 }
 
-textarea:focus {
+div[data-baseweb="textarea"]:focus-within,
+div[data-baseweb="input"]:focus-within {
+    border-color: var(--muted-teal) !important;
+    box-shadow: none !important;
+}
+
+textarea:focus,
+textarea:focus-visible {
     outline: none !important;
     box-shadow: none !important;
 }
 
-/* ── Footer action buttons: matched pair ── */
+/* Quiet footer actions */
 .footer-utility-row {
-    margin-top: 14px;
+    margin-top: 12px;
     margin-bottom: 2px;
 }
 
-.footer-action-link {
+div[data-testid="stColumn"]:has(.quiet-action-link) {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 36px;
+}
+
+div[data-testid="stColumn"]:has(.quiet-action-link) .stMarkdown,
+div[data-testid="stColumn"]:has(.quiet-action-link) p {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+[data-testid="stDownloadButton"],
+[data-testid="stLinkButton"] {
     width: 100%;
-    color: var(--text) !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    font-family: inherit !important;
-    text-decoration: none !important;
-    background: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+[data-testid="stDownloadButton"] > button,
+[data-testid="stLinkButton"] > a {
+    height: 34px !important;
+    padding: 0 !important;
     border: none !important;
-    cursor: pointer;
-    transition: color 0.15s ease;
-}
-
-.footer-action-link:hover {
+    background: transparent !important;
     color: var(--muted-teal) !important;
+    font-size: 13px !important;
+    font-weight: 650 !important;
+    box-shadow: none !important;
     text-decoration: none !important;
-}
-
-/* ── Download button: match LinkedIn button exactly ── */
-[data-testid="stDownloadButton"] {
-    width: 100%;
-}
-
-[data-testid="stDownloadButton"] > button {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     width: 100% !important;
-    height: 36px !important;
-    padding: 0 !important;
-    border: none !important;
-    background: transparent !important;
-    color: var(--text) !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    font-family: inherit !important;
-    box-shadow: none !important;
-    transition: color 0.15s ease !important;
 }
 
-[data-testid="stDownloadButton"] > button:hover:not(:disabled) {
+[data-testid="stDownloadButton"] > button:hover:not(:disabled),
+[data-testid="stLinkButton"] > a:hover {
     background: transparent !important;
-    color: var(--muted-teal) !important;
+    color: var(--primary-dark) !important;
     border: none !important;
 }
 
@@ -526,18 +534,17 @@ textarea:focus {
     box-shadow: none !important;
 }
 
-/* ── Disclaimer ── */
 .disclaimer {
     text-align: center;
     font-size: 10.5px;
     color: var(--warm-muted);
     font-style: italic;
-    margin-top: 8px;
+    margin-top: 6px;
     padding: 0 8px;
     line-height: 1.45;
 }
 
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
     .block-container {
         padding-top: 2rem !important;
@@ -634,7 +641,11 @@ with main_col:
     )
 
     st.markdown(
-        '<div class="chat-card-title"><span>Chat with Index</span></div>',
+        """
+        <div class="chat-card-title">
+            <span>Chat with Index</span>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -657,7 +668,8 @@ with main_col:
                 )
 
             for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
+                avatar = "👤" if message["role"] == "user" else "✦"
+                with st.chat_message(message["role"], avatar=avatar):
                     st.markdown(message["content"])
 
         prompt = st.chat_input("Ask anything about Amy...")
