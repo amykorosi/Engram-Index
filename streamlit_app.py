@@ -233,7 +233,7 @@ header[data-testid="stHeader"] {
     background: rgba(255, 255, 255, 0);
 }
 
-/* ── Sidebar ── */
+/* Sidebar */
 [data-testid="stSidebar"] {
     background-color: #FFFFFF;
     border-right: 1px solid var(--border-soft);
@@ -308,7 +308,7 @@ header[data-testid="stHeader"] {
     outline: none;
 }
 
-/* ── Header ── */
+/* Header */
 .index-header {
     padding: 8px 0 32px 0;
 }
@@ -351,7 +351,7 @@ header[data-testid="stHeader"] {
     margin: 0;
 }
 
-/* ── Chat header ── */
+/* Chat header */
 .chat-card-title {
     display: flex;
     align-items: center;
@@ -363,7 +363,7 @@ header[data-testid="stHeader"] {
     margin-top: 0;
 }
 
-/* ── Generic sidebar buttons ── */
+/* Generic buttons */
 div[data-testid="stButton"] > button {
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -380,13 +380,13 @@ div[data-testid="stButton"] > button:hover {
     background: rgba(47, 97, 115, 0.05);
 }
 
-/* ── Bordered container ── */
+/* Bordered container */
 div[data-testid="stVerticalBlockBorderWrapper"] {
     border-color: var(--border) !important;
     border-radius: 16px !important;
 }
 
-/* ── Empty chat state ── */
+/* Empty chat state */
 .empty-state {
     height: 300px;
     display: flex;
@@ -412,7 +412,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     color: var(--muted);
 }
 
-/* ── Chat avatars ── */
+/* Chat avatars */
 [data-testid="stChatMessageAvatarUser"] {
     background-color: #E8EEF0 !important;
     color: var(--muted-teal) !important;
@@ -423,39 +423,29 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     color: #FFFFFF !important;
 }
 
+/* Chat messages */
 [data-testid="stChatMessage"] {
     background: transparent;
     padding: 0.35rem 0;
 }
 
-/* ── Chat input: kill the red border ── */
+/* Chat input */
 [data-testid="stChatInputContainer"] {
-    border: 1px solid var(--border) !important;
-    background-color: #F4F6F8 !important;
+    border-color: var(--border) !important;
+    background: #F4F6F8 !important;
     box-shadow: none !important;
     border-radius: 14px !important;
-    outline: none !important;
-}
-
-[data-testid="stChatInputContainer"] > div {
-    border: none !important;
-    background-color: transparent !important;
-    box-shadow: none !important;
-    outline: none !important;
 }
 
 [data-testid="stChatInputContainer"]:focus-within {
-    border: 1px solid var(--muted-teal) !important;
+    border-color: var(--muted-teal) !important;
     box-shadow: 0 0 0 1px var(--muted-teal) !important;
-    outline: none !important;
 }
 
-[data-testid="stChatInputContainer"] *:focus,
-[data-testid="stChatInputContainer"] *:focus-visible,
-[data-testid="stChatInputContainer"] *:focus-within {
-    outline: none !important;
+div[data-baseweb="textarea"]:focus-within,
+div[data-baseweb="input"]:focus-within {
+    border-color: var(--muted-teal) !important;
     box-shadow: none !important;
-    border-color: transparent !important;
 }
 
 textarea:focus {
@@ -463,32 +453,27 @@ textarea:focus {
     box-shadow: none !important;
 }
 
-/* ── Footer action buttons: matched pair ── */
+/* Quiet footer actions */
 .footer-utility-row {
-    margin-top: 14px;
+    margin-top: 12px;
     margin-bottom: 2px;
 }
 
-.footer-action-link {
+.quiet-action-link {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
-    height: 36px;
-    width: 100%;
-    color: var(--text) !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    font-family: inherit !important;
+    height: 34px;
+    color: var(--muted-teal);
+    font-size: 13px;
+    font-weight: 650;
     text-decoration: none !important;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: color 0.15s ease;
+    border-bottom: 1px solid transparent;
 }
 
-.footer-action-link:hover {
-    color: var(--muted-teal) !important;
+.quiet-action-link:hover {
+    color: var(--primary-dark);
     text-decoration: none !important;
 }
 
@@ -500,31 +485,24 @@ textarea:focus {
     line-height: 1;
 }
 
-/* ── Download button: match LinkedIn link exactly ── */
 [data-testid="stDownloadButton"] {
     width: 100%;
 }
 
 [data-testid="stDownloadButton"] > button {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 36px !important;
+    height: 34px !important;
     padding: 0 !important;
     border: none !important;
     background: transparent !important;
-    color: var(--text) !important;
+    color: var(--muted-teal) !important;
     font-size: 13px !important;
-    font-weight: 600 !important;
-    font-family: inherit !important;
+    font-weight: 650 !important;
     box-shadow: none !important;
-    transition: color 0.15s ease !important;
 }
 
 [data-testid="stDownloadButton"] > button:hover:not(:disabled) {
     background: transparent !important;
-    color: var(--muted-teal) !important;
+    color: var(--primary-dark) !important;
     border: none !important;
 }
 
@@ -535,18 +513,17 @@ textarea:focus {
     box-shadow: none !important;
 }
 
-/* ── Disclaimer ── */
 .disclaimer {
     text-align: center;
     font-size: 10.5px;
     color: var(--warm-muted);
     font-style: italic;
-    margin-top: 8px;
+    margin-top: 6px;
     padding: 0 8px;
     line-height: 1.45;
 }
 
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
     .block-container {
         padding-top: 2rem !important;
@@ -643,7 +620,11 @@ with main_col:
     )
 
     st.markdown(
-        '<div class="chat-card-title"><span>Chat with Index</span></div>',
+        """
+        <div class="chat-card-title">
+            <span>Chat with Index</span>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
 
@@ -692,7 +673,7 @@ with main_col:
         with action_col1:
             st.markdown(
                 f"""
-                <a href="{LINKEDIN_URL}" target="_blank" class="footer-action-link">
+                <a href="{LINKEDIN_URL}" target="_blank" class="quiet-action-link">
                     <span class="linkedin-mark">in</span>
                     Connect on LinkedIn
                 </a>
@@ -702,7 +683,7 @@ with main_col:
 
         with action_col2:
             st.download_button(
-                label="↓  Download summary",
+                label="Download summary",
                 data=build_conversation_markdown(),
                 file_name="Amy_Korosi_Index_Conversation.md",
                 mime="text/markdown",
