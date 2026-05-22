@@ -108,24 +108,35 @@ def build_conversation_markdown():
 st.markdown("""
 <style>
 
-/* ── Sidebar ── */
+/* ── Pull page top padding up ── */
+.block-container {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* ── Sidebar base ── */
 [data-testid="stSidebar"] {
     background-color: #FFFFFF;
 }
 
+[data-testid="stSidebar"] > div:first-child {
+    padding-top: 1.5rem;
+}
+
+/* ── Sidebar role buttons ── */
 [data-testid="stSidebar"] .stButton > button {
     background: transparent;
     border: none;
     border-left: 3px solid #00637C;
     border-radius: 0 6px 6px 0;
     text-align: left;
-    padding: 10px 10px 10px 14px;
+    padding: 9px 10px 9px 14px;
     color: #31333F;
     width: 100%;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     line-height: 1.4;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     white-space: normal;
     transition: all 0.15s ease;
 }
@@ -156,50 +167,79 @@ st.markdown("""
     color: #FFFFFF !important;
 }
 
-/* ── Kill red focus border on chat input ── */
+/* ── Kill red border on chat input everywhere ── */
+[data-testid="stChatInputContainer"] {
+    border-color: #D1D9DB !important;
+    box-shadow: none !important;
+}
+
 [data-testid="stChatInputContainer"]:focus-within {
     border-color: #00637C !important;
     box-shadow: 0 0 0 1px #00637C !important;
 }
 
-/* ── Footer LinkedIn anchor button ── */
+div[data-baseweb="textarea"]:focus-within,
+div[data-baseweb="input"]:focus-within {
+    border-color: #00637C !important;
+    box-shadow: none !important;
+}
+
+textarea:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* ── Footer button columns equal width ── */
+div[data-testid="column"] {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+}
+
+/* ── LinkedIn anchor button ── */
 .footer-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     width: 100%;
-    padding: 11px 16px;
+    height: 48px;
+    padding: 0 16px;
     border: 1.5px solid #00637C;
     border-radius: 8px;
     background: white;
     color: #1F2933;
     font-size: 14px;
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: all 0.15s ease;
     box-sizing: border-box;
-    line-height: 1.4;
+    cursor: pointer;
 }
 
 .footer-btn:hover {
     background: rgba(0, 99, 124, 0.05);
-    text-decoration: none;
+    text-decoration: none !important;
     color: #1F2933;
 }
 
-.linkedin-icon {
+.linkedin-mark {
     color: #0A66C2;
     font-weight: 900;
     font-size: 15px;
     font-family: sans-serif;
     line-height: 1;
+    flex-shrink: 0;
 }
 
-/* ── Footer download button ── */
+/* ── Download button ── */
+[data-testid="stDownloadButton"] {
+    width: 100%;
+}
+
 [data-testid="stDownloadButton"] > button {
     width: 100% !important;
-    padding: 11px 16px !important;
+    height: 48px !important;
+    padding: 0 16px !important;
     border: 1.5px solid #00637C !important;
     border-radius: 8px !important;
     background: white !important;
@@ -207,8 +247,7 @@ st.markdown("""
     font-size: 14px !important;
     font-weight: 600 !important;
     transition: all 0.15s ease !important;
-    min-height: unset !important;
-    line-height: 1.4 !important;
+    line-height: 1 !important;
 }
 
 [data-testid="stDownloadButton"] > button:hover:not(:disabled) {
@@ -227,11 +266,11 @@ st.markdown("""
 /* ── Disclaimer ── */
 .disclaimer {
     text-align: center;
-    font-size: 11px;
+    font-size: 11.5px;
     color: #9A8F80;
     font-style: italic;
-    margin-top: 12px;
-    padding: 0 12px;
+    margin-top: 14px;
+    padding: 0 8px;
     line-height: 1.7;
 }
 
@@ -250,18 +289,47 @@ if "session_id" not in st.session_state:
 # ── Sidebar ──
 with st.sidebar:
     st.markdown('''
-        <div style="display:flex; align-items:center; gap:12px; padding:6px 0 18px 0;">
-            <div style="width:40px; height:40px; background:#1F3A4A; border-radius:10px;
-                        display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <div style="
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 4px 4px 22px 4px;
+        ">
+            <div style="
+                width: 48px;
+                height: 48px;
+                background: #1F3A4A;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                     stroke-width="1.5" stroke="white" width="20" height="20">
+                     stroke-width="1.5" stroke="white" width="24" height="24">
                   <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5
+                    0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0
+                    2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5
+                    0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12
+                    18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25
+                    4.125s-8.25-1.847-8.25-4.125" />
                 </svg>
             </div>
             <div>
-                <div style="font-weight:700; font-size:15px; color:#1F2933; line-height:1.2;">Amy's Engram</div>
-                <div style="font-size:11px; color:#7A6E61; margin-top:3px;">Structured professional memory</div>
+                <div style="
+                    font-weight: 700;
+                    font-size: 17px;
+                    color: #1F2933;
+                    line-height: 1.2;
+                    letter-spacing: -0.2px;
+                ">Amy's Engram</div>
+                <div style="
+                    font-size: 12px;
+                    color: #7A6E61;
+                    margin-top: 4px;
+                    font-weight: 400;
+                ">Structured professional memory</div>
             </div>
         </div>
     ''', unsafe_allow_html=True)
@@ -276,17 +344,31 @@ with st.sidebar:
 
 # ── Main header ──
 st.markdown('''
-    <div style="padding:8px 0 4px 0;">
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:3px;">
-            <span style="font-size:22px; color:#00637C; line-height:1;">✦</span>
-            <span style="font-size:28px; font-weight:700; color:#1F2933;
-                         letter-spacing:-0.5px; line-height:1;">Index</span>
+    <div style="padding: 0 0 10px 0;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 2px;">
+            <span style="font-size: 22px; color: #00637C; line-height: 1;">✦</span>
+            <span style="
+                font-size: 30px;
+                font-weight: 700;
+                color: #1F2933;
+                letter-spacing: -0.5px;
+                line-height: 1;
+            ">Index</span>
         </div>
-        <div style="font-size:10px; letter-spacing:0.18em; color:#7A6E61;
-                    text-transform:uppercase; margin-bottom:14px; padding-left:2px;">
-            Powered by Snowflake
-        </div>
-        <p style="font-size:15px; color:#4B5563; line-height:1.6; margin:0 0 8px 0;">
+        <div style="
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: #7A6E61;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            padding-left: 2px;
+        ">Powered by Snowflake</div>
+        <p style="
+            font-size: 14px;
+            color: #4B5563;
+            line-height: 1.65;
+            margin: 0;
+        ">
             Index searches Amy's professional Engram: a structured knowledge base of
             career evidence, leadership philosophy, and references.
         </p>
@@ -294,9 +376,9 @@ st.markdown('''
 ''', unsafe_allow_html=True)
 
 
-# ── Chat frame: bordered container with nested chat input ──
+# ── Chat frame ──
 with st.container(border=True):
-    message_area = st.container(height=500)
+    message_area = st.container(height=340)
     with message_area:
         for message in st.session_state.messages:
             with st.chat_message(message["role"]):
@@ -351,8 +433,9 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown('''
         <a href="https://www.linkedin.com/in/amy-korosi-1972b8b/"
-           target="_blank" class="footer-btn">
-            <span class="linkedin-icon">in</span>
+           target="_blank"
+           class="footer-btn">
+            <span class="linkedin-mark">in</span>
             Connect on LinkedIn
         </a>
     ''', unsafe_allow_html=True)
@@ -365,7 +448,6 @@ with col2:
         mime="text/markdown",
         disabled=not has_conversation,
     )
-
 
 # ── Disclaimer ──
 st.markdown(
