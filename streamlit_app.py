@@ -435,12 +435,21 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     background: #F4F6F8 !important;
     box-shadow: none !important;
     border-radius: 14px !important;
+    outline: none !important;
 }
 
 [data-testid="stChatInputContainer"]:focus-within {
     border-color: var(--muted-teal) !important;
     box-shadow: 0 0 0 1px var(--muted-teal) !important;
+    outline: none !important;
 }
+
+[data-testid="stChatInputContainer"] *:focus,                                                                                                                                                                                                                
+[data-testid="stChatInputContainer"] *:focus-visible,                                                                                                                                                                                                      
+[data-testid="stChatInputContainer"] *:focus-within {
+  outline: none !important;                                                                                                                                                                                                                                
+  box-shadow: none !important;
+}  
 
 div[data-baseweb="textarea"]:focus-within,
 div[data-baseweb="input"]:focus-within {
