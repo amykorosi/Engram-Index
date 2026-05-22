@@ -162,60 +162,59 @@ st.markdown("""
     box-shadow: 0 0 0 1px #00637C !important;
 }
 
-/* ── Action bar: LinkedIn link button ── */
-.action-linkedin-btn {
-    display: inline-flex;
-    flex-direction: column;
+/* ── Footer LinkedIn anchor button ── */
+.footer-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    text-decoration: none;
-    color: #00637C;
-    padding: 7px 16px;
+    gap: 8px;
+    width: 100%;
+    padding: 11px 16px;
+    border: 1.5px solid #00637C;
     border-radius: 8px;
-    border: 1px solid #C8D8DB;
     background: white;
-    transition: all 0.15s ease;
-    gap: 3px;
-}
-
-.action-linkedin-btn:hover {
-    background: rgba(0, 99, 124, 0.07);
-    border-color: #00637C;
+    color: #1F2933;
+    font-size: 14px;
+    font-weight: 600;
     text-decoration: none;
-    color: #00637C;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+    line-height: 1.4;
 }
 
-.action-linkedin-icon {
-    font-size: 13px;
-    font-weight: 800;
+.footer-btn:hover {
+    background: rgba(0, 99, 124, 0.05);
+    text-decoration: none;
+    color: #1F2933;
+}
+
+.linkedin-icon {
+    color: #0A66C2;
+    font-weight: 900;
+    font-size: 15px;
     font-family: sans-serif;
     line-height: 1;
 }
 
-.action-linkedin-label {
-    font-size: 10px;
-    color: #7A6E61;
-    line-height: 1;
-}
-
-/* ── Action bar: Download button ── */
+/* ── Footer download button ── */
 [data-testid="stDownloadButton"] > button {
-    background: white !important;
-    color: #00637C !important;
-    border: 1px solid #C8D8DB !important;
+    width: 100% !important;
+    padding: 11px 16px !important;
+    border: 1.5px solid #00637C !important;
     border-radius: 8px !important;
-    padding: 7px 16px !important;
-    font-size: 12px !important;
+    background: white !important;
+    color: #1F2933 !important;
+    font-size: 14px !important;
     font-weight: 600 !important;
-    min-height: unset !important;
-    line-height: 1.6 !important;
     transition: all 0.15s ease !important;
-    width: auto !important;
+    min-height: unset !important;
+    line-height: 1.4 !important;
 }
 
 [data-testid="stDownloadButton"] > button:hover:not(:disabled) {
-    background: rgba(0, 99, 124, 0.07) !important;
+    background: rgba(0, 99, 124, 0.05) !important;
     border-color: #00637C !important;
+    color: #1F2933 !important;
 }
 
 [data-testid="stDownloadButton"] > button:disabled {
@@ -223,6 +222,17 @@ st.markdown("""
     border-color: #E5EAEB !important;
     background: #F7F9FA !important;
     cursor: not-allowed !important;
+}
+
+/* ── Disclaimer ── */
+.disclaimer {
+    text-align: center;
+    font-size: 11px;
+    color: #9A8F80;
+    font-style: italic;
+    margin-top: 12px;
+    padding: 0 12px;
+    line-height: 1.7;
 }
 
 </style>
@@ -241,9 +251,14 @@ if "session_id" not in st.session_state:
 with st.sidebar:
     st.markdown('''
         <div style="display:flex; align-items:center; gap:12px; padding:6px 0 18px 0;">
-            <div style="width:38px; height:38px; background:#1F3A4A; border-radius:10px;
-                        display:flex; align-items:center; justify-content:center;
-                        color:white; font-size:18px; flex-shrink:0;">🗄️</div>
+            <div style="width:40px; height:40px; background:#1F3A4A; border-radius:10px;
+                        display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="1.5" stroke="white" width="20" height="20">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                </svg>
+            </div>
             <div>
                 <div style="font-weight:700; font-size:15px; color:#1F2933; line-height:1.2;">Amy's Engram</div>
                 <div style="font-size:11px; color:#7A6E61; margin-top:3px;">Structured professional memory</div>
@@ -271,22 +286,25 @@ st.markdown('''
                     text-transform:uppercase; margin-bottom:14px; padding-left:2px;">
             Powered by Snowflake
         </div>
-        <p style="font-size:14px; color:#4B5563; line-height:1.6; margin:0;">
+        <p style="font-size:15px; color:#4B5563; line-height:1.6; margin:0 0 8px 0;">
             Index searches Amy's professional Engram: a structured knowledge base of
             career evidence, leadership philosophy, and references.
         </p>
     </div>
 ''', unsafe_allow_html=True)
-st.divider()
 
 
-# ── Messages ──
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+# ── Chat frame: bordered container with nested chat input ──
+with st.container(border=True):
+    message_area = st.container(height=500)
+    with message_area:
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+    prompt = st.chat_input("Ask anything about Amy...")
 
 
-# ── Pending role prompt ──
+# ── Handle pending role prompt ──
 if "pending_prompt" in st.session_state:
     actual_prompt = st.session_state.pop("pending_prompt")
     display_text = st.session_state.pop("pending_display", actual_prompt)
@@ -294,76 +312,64 @@ if "pending_prompt" in st.session_state:
     st.session_state.messages.append({"role": "user", "content": display_text})
     log_to_snowflake(st.session_state.session_id, "user", display_text)
 
-    with st.chat_message("user"):
-        st.markdown(display_text)
-
     api_messages = [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages[:-1]
     ] + [{"role": "user", "content": [{"type": "text", "text": actual_prompt}]}]
 
-    with st.chat_message("assistant"):
-        with st.spinner("Index is searching..."):
-            response_text = call_index_agent(api_messages)
-        st.markdown(response_text)
+    with st.spinner("Index is searching..."):
+        response_text = call_index_agent(api_messages)
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})
     log_to_snowflake(st.session_state.session_id, "assistant", response_text)
     st.rerun()
 
 
-# ── Action bar ──
-st.markdown(
-    '<hr style="border:none; border-top:1px solid #E5E7EB; margin:20px 0 12px 0;">',
-    unsafe_allow_html=True
-)
-
-bar_col1, bar_col2, bar_col3 = st.columns([1.2, 1.5, 5])
-
-with bar_col1:
-    st.markdown('''
-        <a href="https://www.linkedin.com/in/amy-korosi-1972b8b/"
-           target="_blank" class="action-linkedin-btn">
-            <span class="action-linkedin-icon">in</span>
-            <span class="action-linkedin-label">Connect</span>
-        </a>
-    ''', unsafe_allow_html=True)
-
-with bar_col2:
-    has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
-    st.download_button(
-        label="↓  Save Chat",
-        data=build_conversation_markdown(),
-        file_name="Amy_Korosi_Index_Conversation.md",
-        mime="text/markdown",
-        disabled=not has_conversation,
-    )
-
-with bar_col3:
-    st.markdown(
-        '<p style="font-size:12px; color:#9A8F80; padding-top:9px; font-style:italic;">'
-        "Index searches Amy's professional Engram — ask anything.</p>",
-        unsafe_allow_html=True
-    )
-
-
-# ── Chat input ──
-if prompt := st.chat_input("Ask anything about Amy..."):
+# ── Handle direct prompt ──
+if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     log_to_snowflake(st.session_state.session_id, "user", prompt)
-
-    with st.chat_message("user"):
-        st.markdown(prompt)
 
     api_messages = [
         {"role": m["role"], "content": [{"type": "text", "text": m["content"]}]}
         for m in st.session_state.messages
     ]
 
-    with st.chat_message("assistant"):
-        with st.spinner("Index is searching..."):
-            response_text = call_index_agent(api_messages)
-        st.markdown(response_text)
+    with st.spinner("Index is searching..."):
+        response_text = call_index_agent(api_messages)
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})
     log_to_snowflake(st.session_state.session_id, "assistant", response_text)
+    st.rerun()
+
+
+# ── Footer buttons ──
+has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown('''
+        <a href="https://www.linkedin.com/in/amy-korosi-1972b8b/"
+           target="_blank" class="footer-btn">
+            <span class="linkedin-icon">in</span>
+            Connect on LinkedIn
+        </a>
+    ''', unsafe_allow_html=True)
+
+with col2:
+    st.download_button(
+        label="↓  Download Summary",
+        data=build_conversation_markdown(),
+        file_name="Amy_Korosi_Index_Conversation.md",
+        mime="text/markdown",
+        disabled=not has_conversation,
+    )
+
+
+# ── Disclaimer ──
+st.markdown(
+    '<p class="disclaimer">This prototype began May 16th 2026, it is a work in progress. '
+    'Please feel free to reach out to Amy via LinkedIn if you have any feedback.</p>',
+    unsafe_allow_html=True
+)
