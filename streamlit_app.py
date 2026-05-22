@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import uuid
 
 st.set_page_config(
     page_title="Ask Index About Amy Korosi",
@@ -9,6 +10,7 @@ st.set_page_config(
 
 ACCOUNT_URL = "https://cnnqtpa-am36229.snowflakecomputing.com"
 API_ENDPOINT = f"{ACCOUNT_URL}/api/v2/databases/ENGRAM/schemas/AGENTS/agents/INDEX:run"
+SQL_ENDPOINT = f"{ACCOUNT_URL}/api/v2/statements"
 
 ROLES = [
     {"title": "SVP, Data, Technology & Operations", "company": "Globalfaces Direct", "dates": "2023-Present"},
@@ -52,6 +54,52 @@ def call_index_agent(messages):
         return " ".join(text_parts).strip()
     except Exception as e:
         return f"Parse error: {str(e)} -- Raw: {response.text[:500]}"
+
+def log_to_snowflake(session_id, role, content):
+    try:
+        pat = st.secrets["snowflake"]["pat"]
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Bearer {pat}",
+            "X-Snowflake-Authorization-Token-Type": "PROGRAMMATIC_ACCESS_TOKEN",
+            "User-Agent": "EngramApp/1.0",
+        }
+        body = {
+            "statement": "INSERT INTO ENGRAM.AGENTS.INDEX_CONVERSATIONS (session_id, role, message_content) VALUES (?, ?, ?)",
+            "timeout": 60,
+            "warehouse": "ENGRAM_WH",
+            "database": "ENGRAM",
+            "schema": "AGENTS",
+            "bindings": {
+                "1": {"type": "TEXT", "value": session_id},
+                "2": {"type": "TEXT", "value": role},
+                "3": {"type": "TEXT", "value": content},
+            },
+        }
+        requests.post(SQL_ENDPOINT, json=body, headers=headers)
+    except:
+        pass
+
+def build_conversation_markdown():
+    lines = [
+        "# Index Conversation -- Amy Korosi",
+        "",
+        "Index is Amy Korosi's professional engram: a structured knowledge base of career evidence, leadership philosophy, and references. This document is a record of a conversation that took place with Index.",
+        "",
+        "To continue this conversation: https://engram-index.streamlit.app/",
+        "",
+        "---",
+        ""
+    ]
+    for msg in st.session_state.messages:
+        if msg["role"] == "user":
+            lines.append(f"**Question:** {msg['content']}")
+            lines.append("")
+        else:
+            lines.append(f"**Index:** {msg['content']}")
+            lines.append("")
+    return "\n".join(lines)
 
 st.markdown("""
 <style>
@@ -112,6 +160,9 @@ st.markdown("""
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
 with st.sidebar:
     st.markdown("**Career Engram**")
     st.divider()
@@ -135,6 +186,8 @@ if "pending_prompt" in st.session_state:
     display_text = st.session_state.pop("pending_display", actual_prompt)
 
     st.session_state.messages.append({"role": "user", "content": display_text})
+    log_to_snowflake(st.session_state.session_id, "user", display_text)
+
     with st.chat_message("user"):
         st.markdown(display_text)
 
@@ -149,10 +202,13 @@ if "pending_prompt" in st.session_state:
         st.markdown(response_text)
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})
+    log_to_snowflake(st.session_state.session_id, "assistant", response_text)
     st.rerun()
 
 if prompt := st.chat_input("Ask anything about Amy..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
+    log_to_snowflake(st.session_state.session_id, "user", prompt)
+
     with st.chat_message("user"):
         st.markdown(prompt)
 
@@ -166,3 +222,23 @@ if prompt := st.chat_input("Ask anything about Amy..."):
         st.markdown(response_text)
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})
+    log_to_snowflake(st.session_state.session_id, "assistant", response_text)
+
+st.divider()
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    st.markdown(
+        "Connect with Amy on [LinkedIn](https://www.linkedin.com/in/amy-korosi-1972b8b/)",
+        unsafe_allow_html=True
+    )
+
+with col2:
+    has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
+    st.download_button(
+        label="Download Conversation",
+        data=build_conversation_markdown(),
+        file_name="Amy_Korosi_Index_Conversation.md",
+        mime="text/markdown",
+        disabled=not has_conversation
+    )
