@@ -680,16 +680,7 @@ with main_col:
         action_col1, action_col2 = st.columns(2)
 
         with action_col1:
-            st.markdown(
-                f"""
-                <a href="{LINKEDIN_URL}" target="_blank" style="text-decoration:none;">
-                    <button class="footer-action-link" style="width:100%; cursor:pointer;">
-                        Connect on LinkedIn
-                    </button>
-                </a>
-                """,
-                unsafe_allow_html=True,
-            )
+            st.link_button("Connect on LinkedIn", LINKEDIN_URL, use_container_width=True)
 
         with action_col2:
             st.download_button(
