@@ -574,7 +574,6 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     justify-content: center;
 }
 
-
 [data-testid="stDownloadButton"],
 [data-testid="stLinkButton"] {
     width: 100%;
@@ -637,7 +636,7 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 }
 
 .questions-section {
-    margin-bottom: 28px;
+    margin-bottom: 32px;
 }
 
 .questions-section-header {
@@ -646,7 +645,7 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--muted-teal);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-soft);
 }
@@ -660,19 +659,51 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 .questions-list li {
     font-size: 14px;
     color: var(--text);
-    padding: 9px 0;
-    border-bottom: 1px solid #F3F4F6;
+    padding: 10px 0 10px 20px;
     line-height: 1.5;
     cursor: text;
     user-select: all;
+    position: relative;
 }
 
-.questions-list li:last-child {
-    border-bottom: none;
+.questions-list li::before {
+    content: "•";
+    color: var(--muted-teal);
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    top: 9px;
+    line-height: 1.5;
 }
 
 .questions-list li:hover {
     color: var(--muted-teal);
+}
+
+/* Coming soon */
+.coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    gap: 10px;
+    text-align: center;
+}
+
+.coming-soon-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-teal);
+}
+
+.coming-soon-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 420px;
 }
 
 /* Mobile */
@@ -777,7 +808,7 @@ with main_col:
     # Tabs
     # --------------------------------------------------------
 
-    tab_index, tab_questions = st.tabs(["✦  Ask Index", "  What to Ask"])
+    tab_index, tab_questions, tab_resume = st.tabs(["✦  Ask Index", "  What to Ask", "  Resume Snapshot"])
 
     # --------------------------------------------------------
     # Tab 1: Ask Index (unchanged)
@@ -875,7 +906,7 @@ with main_col:
             unsafe_allow_html=True,
         )
 
-        col_left, col_right = st.columns(2)
+        col_left, col_spacer, col_right = st.columns([1, 0.1, 1])
 
         sections = list(QUESTIONS.items())
         left_sections = sections[:2]
@@ -910,3 +941,21 @@ with main_col:
                     """,
                     unsafe_allow_html=True,
                 )
+
+    # --------------------------------------------------------
+    # Tab 3: Resume Snapshot
+    # --------------------------------------------------------
+
+    with tab_resume:
+
+        st.markdown(
+            """
+            <div class="coming-soon">
+                <div class="coming-soon-label">Coming Soon</div>
+                <div class="coming-soon-text">
+                    Amy's career timeline and resume will live here.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
