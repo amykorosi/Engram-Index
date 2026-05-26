@@ -35,10 +35,10 @@ APP_URL = "https://engram-index.streamlit.app/"
 ROLES = [
     {"title": "SVP, Data, Technology & Operations", "company": "Globalfaces Direct", "dates": "2023-Present"},
     {"title": "VP, Analytics & Automation", "company": "Hudson's Bay Company", "dates": "2021-2023"},
-    {"title": "DVP, Analytics Enablement", "company": "Hudson's Bay Company", "dates": "2020"},
-    {"title": "Director, Digital Product Delivery", "company": "CIBC", "dates": "2018-2019"},
+    {"title": "DVP, Analytics Enablement", "company": "Hudson's Bay Company", "dates": "2020-2021"},
+    {"title": "Director, Digital Product Delivery", "company": "CIBC", "dates": "2019"},
     {"title": "Head of Product", "company": "Juice Mobile AdTech", "dates": "2017-2018"},
-    {"title": "Director, Product & Analytics", "company": "Rogers Communications", "dates": "2013-2017"},
+    {"title": "Director, Product & Analytics", "company": "Rogers Communications", "dates": "2013-2016"},
     {"title": "Sr. Manager, Strategy & Analytics", "company": "Rogers Communications", "dates": "2010-2012"},
     {"title": "Analytics Foundations", "company": "Klick, Wunderman, Foresters, Enbridge", "dates": "2000-2010"},
     {"title": "Geographic Information Systems", "company": "Algonquin College", "dates": "1997-2000"},
@@ -86,6 +86,119 @@ QUESTIONS = {
         "Why and how was this application built?",
         "What does Amy do next with Engram and Index?",
     ],
+}
+
+
+# ============================================================
+# Resume content
+# ============================================================
+
+RESUME = [
+    {
+        "title": "SVP, Data & Technology",
+        "company": "Globalfaces Direct",
+        "dates": "2023 to Present",
+        "summary": "Lead Data, Technology, Privacy, and Call Center Operations for Globalfaces Direct, a high-volume North American fundraising business supporting 70+ charity brands. Work spans data strategy and execution, platform modernization, operational infrastructure, governance, and AI-native capability built directly on Snowflake.",
+        "bullets": [
+            "Built a modern data ecosystem using Snowflake, Sigma, Fivetran, and Azure to improve reporting, visibility, and executive decision-making across the business",
+            "Led digital product modernization including the rebuild of the field tablet application deployed to 1,000+ tablets and development of Office in the Box as a scalable platform for standardized office operations",
+            "Automated invoicing for 70+ charities and payroll for 800 fundraisers, reducing manual effort and improving accuracy",
+            "Built PULSE, a Snowflake-native AI operations intelligence platform using Cortex Agents, Cortex Search, and Streamlit to make business knowledge accessible through natural language",
+            "Launched near real-time fraud detection and a CIT Command Center to improve donor data integrity and field operational oversight",
+        ],
+    },
+    {
+        "title": "VP, Analytics & Automation",
+        "company": "Hudson's Bay Company",
+        "dates": "2021 to 2023",
+        "summary": "Led analytics, machine learning, automation, and data enablement for Hudson's Bay and TheBay.com during a period of major retail and digital transformation. Reported to the CFO, led a team of 20, and focused on building a more connected analytics operating model that improved trust in the numbers and connected data to business decisions.",
+        "bullets": [
+            "Built a hub-and-spoke analytics operating model that clarified ownership, improved cross-functional alignment, and made analytics easier for executives and business partners to act on",
+            "Led profitability analytics that moved the business from broad assumptions to product-level economics, helping Finance and Merchandising understand margin, fulfillment costs, returns, and online assortment decisions",
+            "Advanced ML and automation use cases including NLP for website metadata, competitive price intelligence, call center demand forecasting, and returns planning",
+            "Built an in-house price scraping capability enabling daily price updates and eliminating thousands of hours of manual work",
+            "Founded and led the Data Culture Committee, delivering datathons, training programs, and monthly executive sessions",
+        ],
+    },
+    {
+        "title": "DVP, Analytics Enablement",
+        "company": "Hudson's Bay Company",
+        "dates": "2020 to 2021",
+        "summary": "Led modernization of the enterprise BI environment across Hudson's Bay, Saks Fifth Avenue, and Saks OFF 5TH. Treated business intelligence as a product: structure, roadmaps, rollout plans, governance, and user experiences that made reporting more trusted, actionable, and easier for leaders to use.",
+        "bullets": [
+            "Led Snowflake migration and BI consolidation, sunsetting a 10-year-old legacy data environment across 2,000 users and three retail banners",
+            "Introduced Dataiku for data science and ML enablement across the organization",
+            "Launched mobile executive KPI dashboards improving visibility and reducing reliance on static reporting",
+            "Built employee fraud detection capability at Saks Fifth Avenue combining transaction pattern analysis with exception-based alerting",
+            "Created monthly executive steering committees and bi-weekly stakeholder forums to align marketing, supply chain, and planning teams",
+        ],
+    },
+    {
+        "title": "Director, Digital Product Delivery",
+        "company": "CIBC",
+        "dates": "2019",
+        "summary": "Led digital product delivery across multiple PODs for CIBC's consumer online and mobile banking experience, used by up to 13 million clients. Owned delivery, roadmap planning, intake, prioritization, and cross-functional execution across multiple Product Owner teams.",
+        "bullets": [
+            "Reduced annual call center volume by 800,000 through new digital features including Manage My Card, Mobile Chat, and Free Credit Score",
+            "Delivered customer-facing digital banking capabilities at enterprise scale through quarterly product increment planning across 80+ concurrent projects",
+            "Strengthened the POD operating model by clarifying Product Owner responsibilities, improving decision rights, and creating more consistent ways of working across teams",
+        ],
+    },
+    {
+        "title": "Head of Product",
+        "company": "Juice Mobile AdTech",
+        "dates": "2017 to 2018",
+        "summary": "Led product strategy for a Toronto-based mobile AdTech company as the market shifted from managed services toward scalable platform and SaaS-style products. Owned the vision and delivery of three platforms including a DSP, Futures Market, and DMP.",
+        "bullets": [
+            "Led the SaaS pivot by defining product requirements, user experience, onboarding, support, and commercial expectations for external client-facing software",
+            "Built competitive analysis and product strategy for Nectar (Futures Market) and Swarm (DSP), connecting market readiness, platform gaps, customer needs, and revenue opportunity into a practical roadmap",
+            "Built margin analysis tools and partnered across Sales, Engineering, and Client Success to balance innovation, usability, profitability, and delivery realities",
+        ],
+    },
+    {
+        "title": "Director, Product & Analytics",
+        "company": "Rogers Communications",
+        "dates": "2013 to 2016",
+        "summary": "Led product management for video metadata, search, recommendations, and advanced advertising across Cable TV, Internet, and Home Phone. Managed capital and operating budgets up to $20M. Role sat across product, analytics, first-party data, media partnerships, and executive decision-making during two major platform transformations: the Ignite TV launch and the activation of targeted advertising as a new revenue stream.",
+        "bullets": [
+            "Launched Canada's first targeted advertising platform inside cable set-top infrastructure, generating $8M+ in first-year revenue",
+            "Built VCAR, the subscriber intelligence layer that unlocked first-party viewing data across the Rogers base and turned it into a commercial negotiating asset with content partners",
+            "Used first-party subscriber viewership data to renegotiate AMC content rights at a discount, surfacing audience decline trends before the market could price them in",
+            "Led analytics and data requirements governance for the Ignite TV launch across 25 teams and 2,000+ requirements",
+            "Developed segmentation models clustering usage patterns across 3M customers using 400 variables to improve marketing targeting and reduce call handling times",
+        ],
+    },
+    {
+        "title": "Sr. Manager, Strategy & Analytics",
+        "company": "Rogers Communications",
+        "dates": "2010 to 2012",
+        "summary": "Led strategy, planning, and analytics inside the Rogers Anyplace TV incubator, Rogers' first IPTV product. A Sr. Director expanded the role beyond its original scope to include business case development, corporate planning, and product vision after recognizing potential early in the tenure.",
+        "bullets": [
+            "Led strategic planning for Rogers Anyplace TV, consolidating initiatives across teams, evaluating priorities against goals, and maintaining monthly revenue forecasts with gap and risk analysis",
+            "Owned the Adobe Analytics (Omniture SiteCatalyst) environment, rebuilding measurement standards, tagging governance, and digital reporting from the ground up",
+            "Built joint digital measurement standards with Rogers Media, establishing shared definitions for video plays and advertising metrics across TV channels, magazines, and the corporate site",
+            "Developed the product vision and business case for what later became Shomi, connecting content strategy, market opportunity, customer behaviour, and financial modelling into an executive proposal",
+            "Redesigned executive reporting into a monthly visual newsletter format that consistently reached and was read by senior leadership",
+        ],
+    },
+    {
+        "title": "Analytics Foundations",
+        "company": "Klick Health, Wunderman, Foresters, Enbridge",
+        "dates": "2000 to 2010",
+        "summary": "A decade building measurement discipline across agency and client-side environments. The through-line across all of it: data is only valuable when it connects to a decision.",
+        "bullets": [
+            "Klick Health (2009 to 2010): Lead analytics advisor to pharma clients including Pfizer, Amgen, Takeda, and Humana across campaign strategy, CRM optimization, SEM, and media performance",
+            "Wunderman (2008 to 2009): Built the agency's digital analytics capability from scratch using Omniture, Google Analytics, and Doubleclick for clients including Ford, Microsoft, Kraft, and the Royal Canadian Mint. Managed a team of four across reporting, digital analytics, and GIS",
+            "Foresters and Enbridge: Marketing analytics roles that built the foundational discipline of translating campaign and customer data into direction for business teams that needed decisions, not dashboards",
+        ],
+    },
+]
+
+EDUCATION = {
+    "title": "Diploma, Geographic Information Systems",
+    "company": "Algonquin College",
+    "dates": "1997 to 2000",
+    "summary": "The program combined cartography, database design, SQL, and data visualization. The same principle that makes a good map — accurate, readable, and useful — has shaped every BI and executive reporting build since.",
 }
 
 
@@ -234,6 +347,27 @@ def ask_index(actual_prompt, display_text=None):
     log_to_snowflake(st.session_state.session_id, "assistant", response_text)
 
     st.rerun()
+
+
+def render_resume_role(role, is_education=False):
+    bullets_html = "\n".join(f"<li>{b}</li>" for b in role.get("bullets", []))
+    bullets_block = f'<ul class="resume-bullets">{bullets_html}</ul>' if bullets_html else ""
+    section_class = "resume-role resume-education" if is_education else "resume-role"
+    st.markdown(
+        f"""
+        <div class="{section_class}">
+            <div class="resume-role-header">
+                <div class="resume-role-title">{role["title"]}
+                    <span class="resume-role-company"> &middot; {role["company"]}</span>
+                </div>
+                <div class="resume-role-dates">{role["dates"]}</div>
+            </div>
+            <p class="resume-role-summary">{role["summary"]}</p>
+            {bullets_block}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # ============================================================
@@ -416,10 +550,14 @@ header[data-testid="stHeader"] {
     background: transparent;
 }
 
-[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"] {
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"],
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:focus,
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:focus-within {
     color: var(--primary-dark);
     border-bottom: 2px solid var(--muted-teal);
     background: transparent;
+    outline: none;
+    box-shadow: none;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab-highlight"] {
@@ -553,7 +691,7 @@ textarea:focus-visible {
     box-shadow: none !important;
 }
 
-/* Quiet footer actions */
+/* Footer */
 .footer-utility-row {
     margin-top: 12px;
     margin-bottom: 2px;
@@ -680,30 +818,102 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     color: var(--muted-teal);
 }
 
-/* Coming soon */
-.coming-soon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 260px;
-    gap: 10px;
-    text-align: center;
+/* Resume tab */
+.resume-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
 }
 
-.coming-soon-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted-teal);
+.resume-name {
+    font-size: 28px;
+    font-weight: 750;
+    color: var(--primary-dark);
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    margin-bottom: 6px;
 }
 
-.coming-soon-text {
+.resume-tagline {
     font-size: 14px;
+    color: var(--warm-muted);
+    font-weight: 400;
+}
+
+.resume-role {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.resume-role:last-of-type {
+    border-bottom: none;
+}
+
+.resume-education {
+    margin-top: 8px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+}
+
+.resume-role-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 16px;
+}
+
+.resume-role-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.3;
+}
+
+.resume-role-company {
+    font-size: 14px;
+    font-weight: 400;
     color: var(--muted);
-    line-height: 1.6;
-    max-width: 420px;
+}
+
+.resume-role-dates {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted-teal);
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+}
+
+.resume-role-summary {
+    font-size: 13.5px;
+    color: #4B5563;
+    line-height: 1.65;
+    margin-bottom: 14px;
+}
+
+.resume-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resume-bullets li {
+    font-size: 13.5px;
+    color: var(--text);
+    padding: 5px 0 5px 18px;
+    line-height: 1.55;
+    position: relative;
+}
+
+.resume-bullets li::before {
+    content: "•";
+    color: var(--muted-teal);
+    font-size: 15px;
+    position: absolute;
+    left: 0;
+    top: 4px;
+    line-height: 1.55;
 }
 
 /* Mobile */
@@ -720,6 +930,11 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 
     .empty-state {
         height: 220px;
+    }
+
+    .resume-role-header {
+        flex-direction: column;
+        gap: 4px;
     }
 }
 </style>
@@ -950,12 +1165,17 @@ with main_col:
 
         st.markdown(
             """
-            <div class="coming-soon">
-                <div class="coming-soon-label">Coming Soon</div>
-                <div class="coming-soon-text">
-                    Amy's career timeline and resume will live here.
-                </div>
+            <div class="resume-header">
+                <div class="resume-name">Amy Korosi</div>
+                <div class="resume-tagline">Enterprise Data, Technology &amp; AI Leader &nbsp;·&nbsp; Toronto, Ontario</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
+
+        for role in RESUME:
+            render_resume_role(role)
+
+        st.markdown("<div style='height: 16px'></div>", unsafe_allow_html=True)
+
+        render_resume_role(EDUCATION, is_education=True)
