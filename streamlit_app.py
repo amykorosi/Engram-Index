@@ -54,6 +54,42 @@ ROLE_DISPLAY = "Tell me about Amy's time as {title} at {company} ({dates})"
 
 
 # ============================================================
+# Questions content
+# ============================================================
+
+QUESTIONS = {
+    "Leadership": [
+        "How does Amy build high performing teams?",
+        "Is Amy comfortable speaking in front of crowds?",
+        "How does she keep her teams up to date?",
+        "How does Amy communicate data strategy to executives who are not data people?",
+        "How has Amy built data culture inside an organization?",
+    ],
+    "Experience": [
+        "Give me examples of strategy to execution work Amy has done",
+        "What AI products has Amy built?",
+        "What Snowflake experience does Amy have?",
+        "How is Amy both a data and a product person?",
+    ],
+    "References": [
+        "List Amy's references with job titles and a brief summary of what is in each note",
+        "What patterns are in Amy's references?",
+        "How does Amy's work experience align with what her references say?",
+    ],
+    "Just for Fun": [
+        "What is Amy's special?",
+        "What does Amy do outside of work?",
+        "What does Amy not know about herself?",
+        "What is the coolest thing Amy has built?",
+        "What does Amy think food and data have in common?",
+        "What would surprise people most about Amy's career path?",
+        "Why and how was this application built?",
+        "What does Amy do next with Engram and Index?",
+    ],
+}
+
+
+# ============================================================
 # Helpers
 # ============================================================
 
@@ -310,7 +346,7 @@ header[data-testid="stHeader"] {
 
 /* Header */
 .index-header {
-    padding: 8px 0 32px 0;
+    padding: 8px 0 24px 0;
 }
 
 .index-logo-row {
@@ -349,6 +385,53 @@ header[data-testid="stHeader"] {
     line-height: 1.65;
     max-width: 860px;
     margin: 0;
+}
+
+/* Tabs */
+[data-testid="stTabs"] {
+    margin-top: 8px;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 10px 20px 10px 0;
+    margin-right: 24px;
+    transition: all 0.15s ease;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+    color: var(--muted-teal);
+    background: transparent;
+}
+
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"] {
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--muted-teal);
+    background: transparent;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+    display: none;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-border"] {
+    display: none;
+}
+
+[data-testid="stTabsContent"] {
+    padding-top: 20px;
 }
 
 /* Chat header */
@@ -544,6 +627,54 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     line-height: 1.45;
 }
 
+/* Questions tab */
+.questions-blurb {
+    font-size: 14px;
+    color: #4B5563;
+    line-height: 1.7;
+    max-width: 760px;
+    margin-bottom: 32px;
+}
+
+.questions-section {
+    margin-bottom: 28px;
+}
+
+.questions-section-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-teal);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.questions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.questions-list li {
+    font-size: 14px;
+    color: var(--text);
+    padding: 9px 0;
+    border-bottom: 1px solid #F3F4F6;
+    line-height: 1.5;
+    cursor: text;
+    user-select: all;
+}
+
+.questions-list li:last-child {
+    border-bottom: none;
+}
+
+.questions-list li:hover {
+    color: var(--muted-teal);
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     .block-container {
@@ -623,6 +754,7 @@ with st.sidebar:
 left_spacer, main_col, right_spacer = st.columns([0.08, 0.84, 0.08])
 
 with main_col:
+
     st.markdown(
         """
         <div class="index-header">
@@ -632,83 +764,149 @@ with main_col:
             </div>
             <div class="index-powered">Powered by Snowflake</div>
             <p class="index-intro">
-                Index searches Amy's professional Engram: a structured knowledge base of career evidence,
-                leadership philosophy, and references.
+                Index finds what resumes can't — what people say about working with someone,
+                how they build high performing teams, the patterns in their work experience.
+                All you have to do is ask.
             </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown(
-        """
-        <div class="chat-card-title">
-            <span>Chat with Index</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    # --------------------------------------------------------
+    # Tabs
+    # --------------------------------------------------------
 
-    with st.container(border=True):
-        message_area = st.container(height=360)
+    tab_index, tab_questions = st.tabs(["✦  Ask Index", "  What to Ask"])
 
-        with message_area:
-            if not st.session_state.messages:
-                st.markdown(
-                    """
-                    <div class="empty-state">
-                        <div class="empty-title">Ask Index about Amy</div>
-                        <div class="empty-copy">
-                            Ask about Amy's work, Snowflake experience, leadership style,
-                            references, or how Engram and Index were built.
+    # --------------------------------------------------------
+    # Tab 1: Ask Index (unchanged)
+    # --------------------------------------------------------
+
+    with tab_index:
+
+        st.markdown(
+            """
+            <div class="chat-card-title">
+                <span>Chat with Index</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        with st.container(border=True):
+            message_area = st.container(height=360)
+
+            with message_area:
+                if not st.session_state.messages:
+                    st.markdown(
+                        """
+                        <div class="empty-state">
+                            <div class="empty-title">Ask Index about Amy</div>
+                            <div class="empty-copy">
+                                Ask about Amy's work, Snowflake experience, leadership style,
+                                references, or how Engram and Index were built.
+                            </div>
                         </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                for message in st.session_state.messages:
+                    with st.chat_message(message["role"]):
+                        st.markdown(message["content"])
+
+            prompt = st.chat_input("Ask anything about Amy...")
+
+        if "pending_prompt" in st.session_state:
+            actual_prompt = st.session_state.pop("pending_prompt")
+            display_text = st.session_state.pop("pending_display", actual_prompt)
+            ask_index(actual_prompt=actual_prompt, display_text=display_text)
+
+        if prompt:
+            ask_index(actual_prompt=prompt, display_text=prompt)
+
+        has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
+
+        st.markdown('<div class="footer-utility-row"></div>', unsafe_allow_html=True)
+
+        footer_left, footer_center, footer_right = st.columns([1.2, 1.6, 1.2])
+
+        with footer_center:
+            action_col1, action_col2 = st.columns(2)
+
+            with action_col1:
+                st.link_button("Connect on LinkedIn", LINKEDIN_URL, use_container_width=True)
+
+            with action_col2:
+                st.download_button(
+                    label="Download summary",
+                    data=build_conversation_markdown(),
+                    file_name="Amy_Korosi_Index_Conversation.md",
+                    mime="text/markdown",
+                    disabled=not has_conversation,
+                    use_container_width=True,
+                )
+
+        st.markdown(
+            """
+            <p class="disclaimer">
+                Prototype disclosure: Index began May 16, 2026 and is a work in progress.
+                Feedback is welcome via LinkedIn.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # --------------------------------------------------------
+    # Tab 2: What to Ask
+    # --------------------------------------------------------
+
+    with tab_questions:
+
+        st.markdown(
+            """
+            <p class="questions-blurb">
+                These questions are designed to let Index do the synthesis work across
+                Amy's Professional Engram. Cut and paste any of them into the Ask Index tab,
+                or use them as a starting point and ask in your own words.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        col_left, col_right = st.columns(2)
+
+        sections = list(QUESTIONS.items())
+        left_sections = sections[:2]
+        right_sections = sections[2:]
+
+        with col_left:
+            for section_title, questions in left_sections:
+                items_html = "\n".join(f"<li>{q}</li>" for q in questions)
+                st.markdown(
+                    f"""
+                    <div class="questions-section">
+                        <div class="questions-section-header">{section_title}</div>
+                        <ul class="questions-list">
+                            {items_html}
+                        </ul>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
-            for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
-
-        prompt = st.chat_input("Ask anything about Amy...")
-
-    if "pending_prompt" in st.session_state:
-        actual_prompt = st.session_state.pop("pending_prompt")
-        display_text = st.session_state.pop("pending_display", actual_prompt)
-        ask_index(actual_prompt=actual_prompt, display_text=display_text)
-
-    if prompt:
-        ask_index(actual_prompt=prompt, display_text=prompt)
-
-    has_conversation = any(m["role"] == "assistant" for m in st.session_state.messages)
-
-    st.markdown('<div class="footer-utility-row"></div>', unsafe_allow_html=True)
-
-    footer_left, footer_center, footer_right = st.columns([1.2, 1.6, 1.2])
-
-    with footer_center:
-        action_col1, action_col2 = st.columns(2)
-
-        with action_col1:
-            st.link_button("Connect on LinkedIn", LINKEDIN_URL, use_container_width=True)
-
-        with action_col2:
-            st.download_button(
-                label="Download summary",
-                data=build_conversation_markdown(),
-                file_name="Amy_Korosi_Index_Conversation.md",
-                mime="text/markdown",
-                disabled=not has_conversation,
-                use_container_width=True,
-            )
-
-    st.markdown(
-        """
-        <p class="disclaimer">
-            Prototype disclosure: Index began May 16, 2026 and is a work in progress.
-            Feedback is welcome via LinkedIn.
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
+        with col_right:
+            for section_title, questions in right_sections:
+                items_html = "\n".join(f"<li>{q}</li>" for q in questions)
+                st.markdown(
+                    f"""
+                    <div class="questions-section">
+                        <div class="questions-section-header">{section_title}</div>
+                        <ul class="questions-list">
+                            {items_html}
+                        </ul>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
