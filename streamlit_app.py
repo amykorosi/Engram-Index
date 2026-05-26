@@ -356,12 +356,8 @@ def render_resume_role(role, is_education=False):
     st.markdown(
         f"""
         <div class="{section_class}">
-            <div class="resume-role-header">
-                <div class="resume-role-title">{role["title"]}
-                    <span class="resume-role-company"> &middot; {role["company"]}</span>
-                </div>
-                <div class="resume-role-dates">{role["dates"]}</div>
-            </div>
+            <div class="resume-role-title">{role["title"]}</div>
+            <div class="resume-role-meta">{role["company"]} &nbsp;|&nbsp; {role["dates"]}</div>
             <p class="resume-role-summary">{role["summary"]}</p>
             {bullets_block}
         </div>
@@ -384,9 +380,11 @@ st.markdown(
     --border: #DDE4E7;
     --border-soft: #E8EEF0;
     --text: #1F2933;
+    --body: #4B5563;
     --muted: #6B7280;
     --warm-muted: #8A8178;
     --soft-bg: #F7F9FA;
+    --base-size: 14px;
 }
 
 .stApp {
@@ -514,58 +512,68 @@ header[data-testid="stHeader"] {
 }
 
 .index-intro {
-    font-size: 15px;
-    color: #4B5563;
+    font-size: var(--base-size);
+    color: var(--body);
     line-height: 1.65;
     max-width: 860px;
     margin: 0;
 }
 
-/* Tabs */
+/* Tabs - force active state to stay regardless of focus */
 [data-testid="stTabs"] {
     margin-top: 8px;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab-list"] {
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    background: transparent;
+    gap: 0 !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: transparent !important;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab"] {
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    color: var(--muted);
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 10px 20px 10px 0;
-    margin-right: 24px;
-    transition: all 0.15s ease;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    color: var(--muted) !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    padding: 10px 20px 10px 0 !important;
+    margin-right: 24px !important;
+    transition: color 0.15s ease !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab"]:hover {
-    color: var(--muted-teal);
-    background: transparent;
+    color: var(--muted-teal) !important;
+    background: transparent !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"]:focus,
+[data-testid="stTabs"] [data-baseweb="tab"]:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
 }
 
 [data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"],
 [data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:focus,
-[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:focus-within {
-    color: var(--primary-dark);
-    border-bottom: 2px solid var(--muted-teal);
-    background: transparent;
-    outline: none;
-    box-shadow: none;
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:focus-visible,
+[data-testid="stTabs"] [aria-selected="true"][data-baseweb="tab"]:active {
+    color: var(--primary-dark) !important;
+    border-bottom: 2px solid var(--muted-teal) !important;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab-highlight"] {
-    display: none;
+    display: none !important;
 }
 
 [data-testid="stTabs"] [data-baseweb="tab-border"] {
-    display: none;
+    display: none !important;
 }
 
 [data-testid="stTabsContent"] {
@@ -574,14 +582,10 @@ header[data-testid="stHeader"] {
 
 /* Chat header */
 .chat-card-title {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    color: var(--primary-dark);
     font-size: 13.5px;
     font-weight: 750;
+    color: var(--primary-dark);
     margin-bottom: 10px;
-    margin-top: 0;
 }
 
 /* Generic buttons */
@@ -627,7 +631,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 }
 
 .empty-copy {
-    font-size: 13px;
+    font-size: var(--base-size);
     max-width: 520px;
     line-height: 1.65;
     color: var(--muted);
@@ -644,7 +648,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     color: #FFFFFF !important;
 }
 
-/* Chat messages */
 [data-testid="stChatMessage"] {
     background: transparent;
     padding: 0.35rem 0;
@@ -695,21 +698,6 @@ textarea:focus-visible {
 .footer-utility-row {
     margin-top: 12px;
     margin-bottom: 2px;
-}
-
-div[data-testid="stColumn"]:has(.quiet-action-link) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-div[data-testid="stColumn"]:has(.quiet-action-link) .stMarkdown,
-div[data-testid="stColumn"]:has(.quiet-action-link) p {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 [data-testid="stDownloadButton"],
@@ -764,10 +752,10 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     line-height: 1.45;
 }
 
-/* Questions tab */
+/* ── Questions tab ── */
 .questions-blurb {
-    font-size: 14px;
-    color: #4B5563;
+    font-size: var(--base-size);
+    color: var(--body);
     line-height: 1.7;
     max-width: 760px;
     margin-bottom: 32px;
@@ -778,11 +766,11 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 }
 
 .questions-section-header {
-    font-size: 11px;
+    font-size: var(--base-size);
     font-weight: 700;
-    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--muted-teal);
+    letter-spacing: 0.04em;
+    color: var(--primary-dark);
     margin-bottom: 14px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-soft);
@@ -795,10 +783,10 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 }
 
 .questions-list li {
-    font-size: 14px;
-    color: var(--text);
-    padding: 10px 0 10px 20px;
-    line-height: 1.5;
+    font-size: var(--base-size);
+    color: var(--body);
+    padding: 9px 0 9px 20px;
+    line-height: 1.55;
     cursor: text;
     user-select: all;
     position: relative;
@@ -810,38 +798,37 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     font-size: 16px;
     position: absolute;
     left: 0;
-    top: 9px;
-    line-height: 1.5;
+    top: 8px;
+    line-height: 1.55;
 }
 
 .questions-list li:hover {
     color: var(--muted-teal);
 }
 
-/* Resume tab */
+/* ── Resume tab ── */
 .resume-header {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
     border-bottom: 1px solid var(--border);
 }
 
 .resume-name {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 750;
     color: var(--primary-dark);
-    letter-spacing: -0.4px;
+    letter-spacing: -0.3px;
     line-height: 1.2;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
 .resume-tagline {
-    font-size: 14px;
-    color: var(--warm-muted);
-    font-weight: 400;
+    font-size: var(--base-size);
+    color: var(--body);
 }
 
 .resume-role {
-    padding: 24px 0;
+    padding: 20px 0;
     border-bottom: 1px solid var(--border-soft);
 }
 
@@ -850,46 +837,33 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 }
 
 .resume-education {
-    margin-top: 8px;
-    padding-top: 28px;
+    margin-top: 4px;
+    padding-top: 24px;
     border-top: 1px solid var(--border);
     border-bottom: none;
 }
 
-.resume-role-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    gap: 16px;
-}
-
 .resume-role-title {
-    font-size: 15px;
+    font-size: var(--base-size);
     font-weight: 700;
     color: var(--primary-dark);
-    line-height: 1.3;
+    line-height: 1.4;
+    margin-bottom: 3px;
 }
 
-.resume-role-company {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--muted);
-}
-
-.resume-role-dates {
-    font-size: 12px;
-    font-weight: 600;
+.resume-role-meta {
+    font-size: var(--base-size);
     color: var(--muted-teal);
-    white-space: nowrap;
-    letter-spacing: 0.03em;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .resume-role-summary {
-    font-size: 13.5px;
-    color: #4B5563;
+    font-size: var(--base-size);
+    color: var(--body);
     line-height: 1.65;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
+    margin-top: 0;
 }
 
 .resume-bullets {
@@ -899,10 +873,10 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
 }
 
 .resume-bullets li {
-    font-size: 13.5px;
-    color: var(--text);
-    padding: 5px 0 5px 18px;
-    line-height: 1.55;
+    font-size: var(--base-size);
+    color: var(--body);
+    padding: 5px 0 5px 20px;
+    line-height: 1.6;
     position: relative;
 }
 
@@ -912,8 +886,8 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
     font-size: 15px;
     position: absolute;
     left: 0;
-    top: 4px;
-    line-height: 1.55;
+    top: 5px;
+    line-height: 1.6;
 }
 
 /* Mobile */
@@ -923,19 +897,8 @@ div[data-testid="stColumn"]:has(.quiet-action-link) p {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }
-
-    .index-title {
-        font-size: 28px;
-    }
-
-    .empty-state {
-        height: 220px;
-    }
-
-    .resume-role-header {
-        flex-direction: column;
-        gap: 4px;
-    }
+    .index-title { font-size: 28px; }
+    .empty-state { height: 220px; }
 }
 </style>
 """,
@@ -1019,26 +982,13 @@ with main_col:
         unsafe_allow_html=True,
     )
 
-    # --------------------------------------------------------
-    # Tabs
-    # --------------------------------------------------------
-
     tab_index, tab_questions, tab_resume = st.tabs(["✦  Ask Index", "  What to Ask", "  Resume Snapshot"])
 
-    # --------------------------------------------------------
-    # Tab 1: Ask Index (unchanged)
-    # --------------------------------------------------------
+    # ── Tab 1: Ask Index ──────────────────────────────────────
 
     with tab_index:
 
-        st.markdown(
-            """
-            <div class="chat-card-title">
-                <span>Chat with Index</span>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="chat-card-title">Chat with Index</div>', unsafe_allow_html=True)
 
         with st.container(border=True):
             message_area = st.container(height=360)
@@ -1104,62 +1054,46 @@ with main_col:
             unsafe_allow_html=True,
         )
 
-    # --------------------------------------------------------
-    # Tab 2: What to Ask
-    # --------------------------------------------------------
+    # ── Tab 2: What to Ask ────────────────────────────────────
 
     with tab_questions:
 
         st.markdown(
-            """
-            <p class="questions-blurb">
-                These questions are designed to let Index do the synthesis work across
-                Amy's Professional Engram. Cut and paste any of them into the Ask Index tab,
-                or use them as a starting point and ask in your own words.
-            </p>
-            """,
+            '<p class="questions-blurb">These questions are designed to let Index do the synthesis work across Amy\'s Professional Engram. Cut and paste any of them into the Ask Index tab, or use them as a starting point and ask in your own words.</p>',
             unsafe_allow_html=True,
         )
 
         col_left, col_spacer, col_right = st.columns([1, 0.1, 1])
 
         sections = list(QUESTIONS.items())
-        left_sections = sections[:2]
-        right_sections = sections[2:]
 
         with col_left:
-            for section_title, questions in left_sections:
+            for section_title, questions in sections[:2]:
                 items_html = "\n".join(f"<li>{q}</li>" for q in questions)
                 st.markdown(
                     f"""
                     <div class="questions-section">
                         <div class="questions-section-header">{section_title}</div>
-                        <ul class="questions-list">
-                            {items_html}
-                        </ul>
+                        <ul class="questions-list">{items_html}</ul>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
         with col_right:
-            for section_title, questions in right_sections:
+            for section_title, questions in sections[2:]:
                 items_html = "\n".join(f"<li>{q}</li>" for q in questions)
                 st.markdown(
                     f"""
                     <div class="questions-section">
                         <div class="questions-section-header">{section_title}</div>
-                        <ul class="questions-list">
-                            {items_html}
-                        </ul>
+                        <ul class="questions-list">{items_html}</ul>
                     </div>
                     """,
                     unsafe_allow_html=True,
                 )
 
-    # --------------------------------------------------------
-    # Tab 3: Resume Snapshot
-    # --------------------------------------------------------
+    # ── Tab 3: Resume Snapshot ────────────────────────────────
 
     with tab_resume:
 
@@ -1167,7 +1101,7 @@ with main_col:
             """
             <div class="resume-header">
                 <div class="resume-name">Amy Korosi</div>
-                <div class="resume-tagline">Enterprise Data, Technology &amp; AI Leader &nbsp;·&nbsp; Toronto, Ontario</div>
+                <div class="resume-tagline">Enterprise Data, Technology &amp; AI Leader &nbsp;&middot;&nbsp; Toronto, Ontario</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1176,6 +1110,7 @@ with main_col:
         for role in RESUME:
             render_resume_role(role)
 
-        st.markdown("<div style='height: 16px'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 12px'></div>", unsafe_allow_html=True)
 
         render_resume_role(EDUCATION, is_education=True)
+
